@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: zuulserver
+  cloud:
+    config:
+      fail-fast: true
+      username: user
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

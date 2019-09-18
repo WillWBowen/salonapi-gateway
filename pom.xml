@@ -4,15 +4,70 @@
   <groupId>com.github.willwbowen</groupId>
   <artifactId>salonapi-gateway</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>salonapi-gateway</name>
-  <url>http://maven.apache.org</url>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>Zuul Proxy Server</name>
+  <description>Gateway server for the Salon API microservice Environment</description>
+  <url>https://github.com/WillWBowen/salonapi-gateway</url>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.8.RELEASE</version>
+    <relativePath/>
+  </parent>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Greenwich.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>io.openliberty.boost</groupId>
+        <artifactId>boost-maven-plugin</artifactId>
+        <version>0.1</version>
+        <configuration>
+          <repository>willwbowen/${project.artifactId}</repository>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>docker-build</goal>
+              <goal>docker-push</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
+
