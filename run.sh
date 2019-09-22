@@ -22,7 +22,7 @@ echo "********************************************************"
 echo "Starting Zuul Service on port $ZUULSERVER_PORT"
 echo "********************************************************"
 java -Djava.security.egd=file:/dev/./urandom                    \
-     -Dspring.cloud.config.uri=$CONFIGSERVER_URI                \
+     -Dspring.cloud.config.uri=$CONFIGSERVER_HOST:$CONFIGSERVER_PORT \
       -Dspring.cloud.config.password=$CONFIGSERVER_PASSWORD     \
      -Dspring.profiles.active=$PROFILE                          \
      -jar /usr/local/zuulsvr/app.jar

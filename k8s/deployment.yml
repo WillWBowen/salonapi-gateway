@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zuulserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zuulserver
+  template:
+    metadata:
+      labels:
+        app: zuulserver
+    spec:
+      containers:
+        - name: zuulserver
+          image: willwbowen/salonapi-gateway
+          ports:
+            - containerPort: 5555
+          env:
+          -name: ZUULSERVER_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: zuulserver
+                key: port
+          - name: CONFIGSERVER_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: configserver
+                key: port
+          - name: CONFIGSERVER_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: configserver
+                key: hostname
+          - name: CONFIGSERVER_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: configserver
+                key: password
+          - name: ENCRYPT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: configserver
+                key: encrypt-key
+          - name: EUREKASERVER_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: eurekaserver
+                key: port
+          - name: EUREKASERVER_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: eurekaserver
+                key: hostname
+          - name: PROFILE
+            value: "dev"
